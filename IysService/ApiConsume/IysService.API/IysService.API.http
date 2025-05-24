@@ -1,0 +1,6 @@
+@IysService.API_HostAddress = http://localhost:5269
+
+GET {{IysService.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
