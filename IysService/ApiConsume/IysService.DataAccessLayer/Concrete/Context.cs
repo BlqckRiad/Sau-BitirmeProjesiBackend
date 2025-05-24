@@ -14,9 +14,9 @@ namespace IysService.DataAccessLayer.Concrete
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("data source=MILANOPC;initial catalog=BitirmeDb;user id=ps;password=12345Aa!;MultipleActiveResultSets=True;App=EntityFramework;TrustServerCertificate=True");
+            optionsBuilder.UseSqlServer("data source=31.186.11.162;initial catalog=BitirmeMsSqlDb;user id=BitirmeDbUser;password=i#Kaz86jSk_g7vAl;MultipleActiveResultSets=True;App=EntityFramework;TrustServerCertificate=True");
         }
-      public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
       public DbSet<Appointment> Appointments { get; set; }
       public DbSet<XRayResult> XRayResults { get; set; }
       public DbSet<Image> Images { get; set; }

@@ -76,8 +76,6 @@ namespace IysService.API.Controllers
             xrayresult.XRayTitle = model.XRayTitle;
             xrayresult.XRayDescription = model.XRayDescription;
             xrayresult.XRayImageIsFinished = model.XRayImageIsFinished;
-            xrayresult.XRayFinishedImageID = model.XRayFinishedImageID;
-            xrayresult.XRayFinishedImageUrl = model.XRayFinishedImageUrl;
             _xrayResultService.TUpdate(xrayresult);
             return Ok(xrayresult);
         }
