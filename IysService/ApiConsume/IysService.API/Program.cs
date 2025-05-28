@@ -34,6 +34,9 @@ builder.Services.AddScoped<IXRayResultService, XRayResultManager>();
 builder.Services.AddScoped<IImageDal, EfImageDal>();
 builder.Services.AddScoped<IImageService, ImageManager>();
 
+builder.Services.AddScoped<IActivityDal, EfActivityDal>();
+builder.Services.AddScoped<IActivityService, ActivityManager>();
+
 var secretKey = Encoding.UTF8.GetBytes("LoginRegisterAPIJWT123LoginRegisterAPIJWT123"); // Replace with your secure key
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

@@ -15,10 +15,12 @@ namespace IysService.API.Controllers
     {
         private readonly IAppointmentService _appointmentService;
         private readonly IMapper _mapper;
-        public AppointmentController(IAppointmentService appointmentService , IMapper mapper)
+        private readonly IActivityService _activityService;
+        public AppointmentController(IAppointmentService appointmentService , IMapper mapper, IActivityService activityService)
         {
             _appointmentService = appointmentService;
             _mapper = mapper;
+            _activityService = activityService;
         }
         [HttpGet]
         public IActionResult GetAllAppointments()
@@ -50,6 +52,15 @@ namespace IysService.API.Controllers
                 CreatedUserID = model.UserID,
             };
             _appointmentService.TAdd(newAppointment);
+
+            var activity = new Activity
+            {
+                ActivityDesc = "Yeni randevu oluşturuldu.",
+                ActivityUserID = model.UserID,
+                ActivityType = ActivityType.Ekleme,
+                ActivityDate = DateTime.Now,
+            };
+            _activityService.TAdd(activity);
             return Ok();
         }
         [HttpPost]
@@ -63,7 +74,16 @@ namespace IysService.API.Controllers
             appointment.DeletedDate = DateTime.Now;
             appointment.DeletedUserID = model.DeletedUserID;
             appointment.IsDeleted = true;
-            _appointmentService.TUpdate(appointment);   
+            appointment.Status = AppointmentStatus.İptalEdildi;
+            _appointmentService.TUpdate(appointment);
+            var activity = new Activity
+            {
+                ActivityDesc = "Randevu Silindi",
+                ActivityUserID = model.DeletedUserID,
+                ActivityType = ActivityType.Silme,
+                ActivityDate = DateTime.Now,
+            };
+            _activityService.TAdd(activity);
             return Ok();
         }
         [HttpPost]

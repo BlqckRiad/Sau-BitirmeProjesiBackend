@@ -20,5 +20,6 @@ namespace IysService.DataAccessLayer.Concrete
       public DbSet<Appointment> Appointments { get; set; }
       public DbSet<XRayResult> XRayResults { get; set; }
       public DbSet<Image> Images { get; set; }
+      public DbSet<Activity> Activitys { get; set; }
     }
 }
