@@ -1,0 +1,131 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Ayarlar";
+}
+
+<style>
+    .cropper-container {
+        max-height: 400px !important;
+    }
+    .modal-body {
+        padding: 0;
+        max-height: 400px;
+        overflow: hidden;
+    }
+    .img-container {
+        max-height: 400px;
+        overflow: hidden;
+    }
+    #cropperImage {
+        max-width: 100%;
+        max-height: 400px;
+    }
+    .modal-dialog {
+        max-width: 500px;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Profil Ayarları</h6>
+                </div>
+                <div class="card-body">
+                    <form id="profileForm">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="text-center mb-4">
+                                    <div class="img-container">
+                                        <img src="https://via.placeholder.com/150" class="rounded-circle" alt="Profil Fotoğrafı" id="profileImage" style="width: 150px; height: 150px; object-fit: cover;">
+                                    </div>
+                                    <div class="mt-3">
+                                        <input type="file" class="form-control" id="profilePhoto" accept="image/*" title="Maksimum 2MB boyutunda ve JPG/PNG formatında bir resim yükleyin">
+                                    </div>
+                                    <small class="text-muted">Maksimum boyut: 2MB, Format: JPG/PNG</small>
+                                    
+                                    <!-- Cropper Modal -->
+                                    <div class="modal fade" id="cropperModal" tabindex="-1" role="dialog" aria-labelledby="cropperModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="cropperModalLabel">Fotoğrafı Düzenle</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="img-container">
+                                                        <img id="cropperImage" src="" alt="Düzenlenecek fotoğraf">
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
+                                                    <button type="button" class="btn btn-primary" id="cropButton">Kırp ve Kaydet</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Fotoğraf Güncelleme Butonu -->
+                                    <div class="mt-3" id="photoUpdateButtons" style="display: none;">
+                                        <button type="button" class="btn btn-success btn-sm" id="updatePhotoBtn">
+                                            <i class="fas fa-save"></i> Fotoğrafı Güncelle
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-sm" id="cancelPhotoBtn">
+                                            <i class="fas fa-times"></i> İptal
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Ad</label>
+                                        <input type="text" class="form-control" id="firstName" placeholder="Adınız">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Soyad</label>
+                                        <input type="text" class="form-control" id="lastName" placeholder="Soyadınız">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Kullanıcı Adı</label>
+                                    <input type="text" class="form-control" id="userName" placeholder="UserName">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">E-posta</label>
+                                    <input type="email" class="form-control" id="email" placeholder="ornek@email.com">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Telefon</label>
+                                    <input type="tel" class="form-control" id="phone" placeholder="+90 5XX XXX XX XX">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Cinsiyet</label>
+                                    <select class="form-control" id="gender">
+                                        <option value="0">Seçiniz</option>
+                                        <option value="1">Erkek</option>
+                                        <option value="2">Kadın</option>
+                                        <option value="3">Belirtilmemiş</option>
+                                    </select>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary">Değişiklikleri Kaydet</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <script src="~/js/settings/settingsindex.js"></script>
+}
