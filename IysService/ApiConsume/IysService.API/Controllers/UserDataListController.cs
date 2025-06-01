@@ -22,16 +22,16 @@ namespace IysService.API.Controllers
         public IActionResult Get(int userID)
         {
             var sumAppointments = _appointmentService.TGetList()
-                .Where(x => !x.IsDeleted
+                .Where(x => x.IsDeleted == false
                             && x.UserID == userID
-                            && x.CreatedDate > DateTime.Now)
+                            && x.AppointmentDateStart > DateTime.Now)
                 .Count();
 
             var upcomingAppointmentsCount = _appointmentService.TGetList()
                 .Where(x => !x.IsDeleted
                             && x.UserID == userID
-                            && x.CreatedDate > DateTime.Now
-                            && x.CreatedDate <= DateTime.Now.AddDays(3))
+                            && x.AppointmentDateStart > DateTime.Now
+                            && x.AppointmentDateStart <= DateTime.Now.AddDays(3))
                 .Count();
 
             var userLast5Activities = _activityService.TGetList()

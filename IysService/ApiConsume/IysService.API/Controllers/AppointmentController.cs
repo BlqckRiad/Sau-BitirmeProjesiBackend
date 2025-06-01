@@ -116,6 +116,19 @@ namespace IysService.API.Controllers
 
             return Ok(appointmentMappeds);
         }
+
+        [HttpGet]
+        public IActionResult GetAllDoctorsUser(int doctorId)
+        {
+            var userIds = _appointmentService.TGetList()
+                .Where(x => x.IsDeleted == false && x.DoctorID == doctorId)
+                .Select(x => new DoctorUserDto { UserID = x.UserID })
+                .DistinctBy(x => x.UserID) // System.Linq kullanılmalı (Net6+ için)
+                .ToList();
+
+            return Ok(userIds);
+        }
+
         [HttpPost]
         public IActionResult UpdateAppointmentDate(UpdateAppointmentDateDto model)
         {

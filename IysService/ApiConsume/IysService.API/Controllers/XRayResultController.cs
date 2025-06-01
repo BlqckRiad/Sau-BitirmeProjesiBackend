@@ -5,6 +5,8 @@ using IysService.DtoLayer.MappingDtos;
 using IysService.EntityLayer.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace IysService.API.Controllers
 {
@@ -52,18 +54,54 @@ namespace IysService.API.Controllers
             return Ok(xrayresultmappeds);
         }
         [HttpPost]
-        public IActionResult AddXRayResultWithOutFinaly (AddXRayResultWithOutFinalyDto model)
+        public async Task<IActionResult> AddXRayResultWithOutFinaly(AddXRayResultWithOutFinalyDto model)
         {
+            string prediction = string.Empty;
+            string confidence = string.Empty;
+
+            using (var httpClient = new HttpClient())
+            {
+                var requestBody = new
+                {
+                    url = model.XRayNormalImageUrl
+                };
+
+                var json = JsonConvert.SerializeObject(requestBody);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await httpClient.PostAsync("https://brainaimodel-production.up.railway.app/predict", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<XRayPredictionResponse>(responseContent);
+
+                    prediction = result?.Prediction;
+                    confidence = result?.Confidence;
+                }
+                else
+                {
+                    return BadRequest("Model tahmin servisi başarısız oldu.");
+                }
+            }
+
             var newxrayresult = new XRayResult
             {
                 UserID = model.UserID,
                 DoctorID = model.DoctorID,
                 XRayNormalImageID = model.XRayNormalImageID,
                 XRayNormalImageUrl = model.XRayNormalImageUrl,
+                // Örnek ekleme (veritabanında bu alanlar varsa)
+                XRayTitle = prediction,
+                XRayDescription = confidence,
+                XRayImageIsFinished = true,
+                CreatedDate = DateTime.Now,
             };
+
             _xrayResultService.TAdd(newxrayresult);
             return Ok(newxrayresult);
         }
+
 
         [HttpPost]
         public IActionResult UpdateXRayResultWithFinaly (UpdateXRayResultWithFinalyDto model)
