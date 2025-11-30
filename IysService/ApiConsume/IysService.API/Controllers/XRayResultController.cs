@@ -117,5 +117,23 @@ namespace IysService.API.Controllers
             _xrayResultService.TUpdate(xrayresult);
             return Ok(xrayresult);
         }
+
+        [HttpPost]
+        public IActionResult LastDisResult(LastDisResult model)
+        {
+            var newxrayresult = new XRayResult
+            {
+                UserID = model.UserID,
+                DoctorID = model.DoctorID,
+                XRayNormalImageID = model.XRayNormalImageID,
+                XRayNormalImageUrl = model.XRayNormalImageUrl,
+                XRayTitle = model.XRayTitle,
+                XRayDescription = model.XRayDescription,
+                XRayImageIsFinished = true,
+                CreatedDate = DateTime.Now,
+            };
+            _xrayResultService.TAdd(newxrayresult);
+            return Ok(newxrayresult);
+        }
     }
 }
